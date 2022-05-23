@@ -1,0 +1,50 @@
+{
+    "editor.fontSize": 24,
+    "editor.fontFamily": "Segoe UI",
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 150,
+    "editor.tabSize": 2,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "liveServer.settings.wait": 120,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.colorTheme": "Monokai Dimmed",
+    "workbench.iconTheme": "material-icon-theme",
+    "[vue]": {
+        "editor.defaultFormatter": "octref.vetur"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "files.associations": {
+        "*.cjson": "jsonc",
+        "*.wxss": "css",
+        "*.wxs": "javascript"
+    },
+    "emmet.includeLanguages": {
+        "wxml": "html"
+    },
+    "minapp-vscode.disableAutoConfig": true,
+    "editor.cursorStyle": "block",
+    "merge-conflict.autoNavigateNextConflict.enabled": true,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "bracketPairColorizer.excludedLanguages": [],
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.fontLigatures": null,
+    "explorer.confirmDelete": false,
+    "javascript.validate.enable": false
+}
