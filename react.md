@@ -164,3 +164,25 @@ const Content = (props || {name, age})=>{
 }
 export default Content
 ```
+
+四、react hooks 使用
+
+一、useCallback （）对函数进行保存，只有依赖项发生变化的时候才会触发函数
+
+```javascript
+const hand = useCallback(()=>{},[]) // 数组为依赖项
+```
+
+二、useMemo() 对函数进行缓存 ，只有依赖项发生变化的时候才会触发函数，用于函数内部的计算属性缓存
+
+```javascript
+const arr= UseMemo(()=>{},[])  //数组为依赖项
+```
+
+useCallback() 与useMemo () 当中的依赖项都不会传入到内部，都只是作为更新的条件！
+
+三、useRef（） 用于生成ref 属性，通过  .current  获取当前ref实例
+
+```javascript
+const actionRef = useRef()
+```
