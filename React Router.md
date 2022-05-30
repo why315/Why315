@@ -36,7 +36,7 @@ const app = ()=>{
 
 
 
-<mark>Navigate</mark>   配合useNavigate () 获取到路径跳转的navigate ，进行路径跳转 
+<mark>Navigate</mark>   配合useNavigate () 获取到路径跳转的navigate ，进行路径跳转 ，并动态传递参数,使用useLocation 接收传递的state参数
 
 ```javascript
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,11 @@ const naviaget = useNavigate()
 return (
     <>
         <button  onClick = {()=>{
-          navigate('/login')
+          navigate('/login'，{
+            state：{
+                id：'123'
+            }
+        })
        }/>
     </>
   )
@@ -118,4 +122,23 @@ return(
 }
 ```
 
+二、 useLocation （） 获取l路由的信息
 
+```javascript
+const app = ()=>{
+    const params = useLocation()
+    console.log(params)
+        //hash: ""
+        //key: "00pknuo4"
+        //pathname: "/nav"
+        //search: ""
+        //state: ""
+    return (
+    <>
+      {params.state.id}
+    </>    
+
+)
+
+}
+```
