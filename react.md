@@ -1,191 +1,166 @@
-react 父子组件传递数据
+# react
 
+## 
 
+一、react是如何决定更新的以及如何保证状态更新的
 
-react 父子组件传递数据
-react 组件之间的传值有两种模式：
-一、第一种使用props 
-﻿
-import Home from './Home'
-﻿
-const Index = ()=>{
-﻿
-  const data = {
-﻿
-    value:'90',
-﻿
-    name:'qqqq'
-﻿
+react决定更新是去判断内存是否一致，不是根据内容是否一致去判断，当存储在浏览器中的内存发生变化时，react才会去更新ui以及内容，
+
+```javascript
+const obj = {name:'90',age:'889'}
+const obj2 = obj
+obj===obj2 
+// true 这里两个数据的内容是一致的，指针指向的内存地址也是一致的，
+//属于浅拷贝，所以完全相等
+const obj3 = Object.assgin({},obj)
+obj === obj3 
+// false obj3是由 obj 与空对象 组合在一起的，属于一个新的内存当中的内容，
+//虽然obj与obj3内容完全一致，但是指针指向的不是一个内存地址
+```
+
+```javascript
+import './App.css';
+import { Component } from 'react';
+
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      name: 'wangh',
+      age: '90'
+    }
   }
-﻿
-  return (
-﻿
-    // 向子组件传递一个对象
-﻿
-    <Home value = {data}>
-﻿
-    //或者将传递的对象解构传递过去
-﻿
-    //<Home {...data}>
-﻿
-  )
-﻿
+  render() {
+    return (
+      <div>
+        {this.state.name}
+        <button onClick={() => {
+          this.setState({
+            name:'why'
+          })
+          console.log(this.state)
+        }}>changeName</button>
+      </div>
+    )
+  }
 }
-﻿
-export default Index
-﻿
-const Home = (props)=>{
-﻿
-//props 就是父组件传递过来的value的值
-﻿
-// 接收父组件传递过来的参数,并且解构
-﻿
-  const {value,name}= props
-﻿
-  return (
-﻿
+```
+
+输入的内容为 {name: 'wangh', age: '90'}
+
+这里是因为this.setState并不是同步更新，是异步更新，没有办法保证log的时候，内容一定会拿到更更新后的值，如果想拿到更新后的值，建议使用函数与回调函数
+
+在this.setState中有两个函数，第一个函数设置需要更改的值，第二个函数，可以拿到更改后的值，并且对更改的值做一些数据处理。
+
+```javascript
+return(
     <div>
-﻿
-      {value}=={name}
-﻿
-      // 90==qqqq
-﻿
-    </div>
-﻿
-  )
-﻿
-}
-﻿
-export default Home
-﻿
-//接收传递过来解构好的参数
-﻿
-const Home = ({value,name})=>{
-﻿
-return (
-﻿
-  <div>
-﻿
-    {value}==={name}
-﻿
-  </div>
-﻿
+        {this.state.name}
+        <button onClick={() => {
+          this.setState(() => {
+            return { name: 'why' }
+          }, () => {
+            console.log(this.state)
+          })
+        }}>changeName</button>
+      </div>
 )
-﻿
-}
-﻿
-​
-二、使用React.createContext 与 useContext 发布订阅者模式
-﻿
-import Home from './Home
-﻿
-export const Tentext = React.createContext('obj') // 这里obj 属于默认值，在没有匹配到最近的provide的时候 默认的值会生效 
-﻿
-const Index = ()=>{
-﻿
-  const value = {
-﻿
-  obj:'90',
-﻿
-  name:'2233'
-﻿
-  }
-﻿
-  return (
-﻿
-  // provider 作为发布者，将value这个属性发布出去，所有在Tentext 组件内部的组件都会接收到
-﻿
-  // value这个属性
-﻿
-  <Tentext.Provider value = {value}>
-﻿
-  <Home />  
-﻿
-  </Tentext.Provider>
-﻿
-  )
-﻿
-  
-﻿
-}
-﻿
-export default Index      
-﻿
-      
-﻿
-      
-﻿
-      
-﻿
-import React form 'react'
-﻿
-import {Tentext} from './Index'
-﻿
-// 接收创建的上下文发布者
-﻿
-const Home = ()=>{
-﻿
-  // 将创建的上下文发布者，使用useContext 接收到传递的参数，也就是value的值，
-﻿
-  const params = React.useContext(Tentext)
-﻿
-  //解构接收到的 参数的值
-﻿
-  //const {obj,name} = React.useContext(Tentext)
-﻿
-  return (
-﻿
-     <div>
-﻿
-      {params.obj}==={params.name}
-﻿
-      //90==2233
-﻿
-    </div>
-﻿
-  )
-﻿
-}
-﻿
-export default Home
-﻿
-import {Tentext} from './Index'
-﻿
-const Home =()=>{
-﻿
-  return (
-﻿
-  //使用订阅者模式，去接受发布者发布的数据
-﻿
-  <Tentext.Consumer>
-﻿
-      {
-﻿
-        ({obj,name})=>{
-﻿
-          return (
-﻿
-            <div>
-﻿
-              {obj}=={name}
-﻿
-            //90==2233
-﻿
-            </div>
-﻿
-          )
-﻿
-         }
-﻿
-      }
-﻿
-      
-﻿
-  </Tentext.Consumer>
-﻿
-  )
-﻿
-}
-﻿
-export default Home
+```
 
+二、react 是如何决定渲染顺序的
+
+类组件当中，react 会首先去渲染 constructor 构造函数，然后去render dom节点，在渲染dom节点的时候，去渲染recat的挂载生命周期中执行的函数，如果在生命周期函数中有setState函数设置，会重新去渲染 render 函数，更新dom节点
+
+三、react 组件之间的传值
+
+第一种：使用发布订阅者模式，Provider 组件内的所有组件都可以接收到  父组件传递的参数
+
+```javascript
+import React from 'react'
+import Content from './content'
+export const Provide = React.createContext('light)
+const App = ()=>{
+const values = {
+    name:'wwww',
+    age:"90"
+}
+    return 
+    <>
+        <Provide.Provider value = {values}>
+            <Content />
+        </Provide.Provider>
+    </>
+}
+export default  App 
+```
+
+使用 useContext 接收订阅者发布的消息，useContext (发布者)
+
+```javascript
+
+import React from 'react'
+import {Provide}  from './App'
+const Content = ()=>{
+const {name, age} = React.useConetxt(Provide)
+    return 
+    <>
+        {name}---{age}
+    </>
+}
+```
+
+使用 Consumer 接收发布者发布的消息
+
+```javascript
+import React from 'react'
+import {Provide} from './App'
+const Content = ()=>{
+    return (
+    <>
+    <Provide.Consumer>
+    {
+    ({name,age})=>{
+        return (
+            <>{name} ==== {age}</>
+            )
+        }
+    }
+    <Provide.Consumer/>
+    </>
+)
+}
+```
+
+第二种：使用props 方式传递值,父组件上传递属性，组件使用Props 接收传递过去的属性，也可以在子组件中直接解构props
+
+```javascript
+import React from 'react'
+import Content from './Content'
+const App = ()=>{
+const values = {
+    name:'www',
+    age:'90'
+}
+    return(
+    <>
+      <Content value = {values}/>
+    </>
+) 
+}
+export default App
+```
+
+```javascript
+import React from 'react'
+
+const Content = (props || {name, age})=>{
+  const {name,age} = props
+// 在组件上直接解构，租价内部可以不使用解构方法
+    return (
+    <>
+      {name}=={age}  
+    </>
+    )
+}
+export default Content
+```
