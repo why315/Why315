@@ -20,7 +20,7 @@
 
 输入命令 ：`git config core.autocrlf false` (仅对当前git仓库有效）
 
-### 4、PostCSS plugin postcss-pxtorem requires PostCSS 8 ？ 
+### 4、PostCSS plugin postcss-pxtorem requires PostCSS 8 ？
 
 npm i postcss-pxtorem@5.1.1 -D
 
@@ -46,4 +46,3 @@ personal access tokens
 ```js
 git remote remove origin
 ```
-
