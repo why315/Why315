@@ -38,7 +38,15 @@ export default function mountElement (vitrulDom,contain) {
 第四步  mountIsElement  判断是元素，可以进行虚拟Dom转换成真实Dom ,进行页面挂载
 
 ```javascript
+import createElement from './createElement'
 export default function mountIsElement(vitrulDom,contain) {
+  const newsElement = createElement(vitrulDom)
+  contain.appendChild(newsElement )
+}
+```
+
+```javascript
+export default function createElement (vitrulDom) {
     let newElement = null
     if(vitrulDom.type === "text) {
     newElement = document.createTextNode(vitrulDom.props.textContent)
@@ -48,7 +56,7 @@ export default function mountIsElement(vitrulDom,contain) {
     vitrulDom.props.children.forEach(child =>{
     mountElement(child,newElement )
    })
-  contain.appendChild(newElement)
+    return  newElement 
 }
 ```
 
@@ -140,15 +148,34 @@ if(isFunctionComponent(vitrulDom)){
 ```
 
 ```javascript
-//渲染函数组件
+//渲染函数组件,传递props内容
+import createElement form './createElement'
 export default function mountFunctionComponent(vitrulDom,contain){
-
+    //渲染函数组件得函数体内容，return返回得结构
+    const element =  vitrulDom.type(vitrulDom.props)
+    const newElement  = createElement(element)
+    contain.appliendChild(newElement)
 }
 ```
 
 ```javascript
-//渲染类组件
+//渲染类组件,获取class类，调用render 方法,获取结构数据
+import createElement form './createElement'
 export default function mountClassComponent(vitrulDom,contain){
-
+    const newComponent = new vitrulDom.type()
+    const news =newComponent.render()
+    const newElement = createElement(news )
+    contain.applendChild(newElement)    
 }
 ```
+
+```javascript
+// 导出 react Component 类,传递 props参数
+export default class Component{
+    construal(props) {
+    this.props = props
+    }    
+}
+```
+
+ 
